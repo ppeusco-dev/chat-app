@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   before_action :set_room, only: %i[create edit]
   before_action :set_message, only: %i[edit update destroy]
@@ -7,9 +9,7 @@ class MessagesController < ApplicationController
     @message.user = current_user
 
     respond_to do |format|
-      if @message.save
-        format.turbo_stream
-      end
+      format.turbo_stream if @message.save
     end
   end
 
@@ -17,18 +17,14 @@ class MessagesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @message.update message_params
-        format.turbo_stream
-      end
+      format.turbo_stream if @message.update message_params
     end
   end
 
   def destroy
     @message.destroy
 
-    respond_to do |format|
-      format.turbo_stream
-    end
+    respond_to(&:turbo_stream)
   end
 
   private

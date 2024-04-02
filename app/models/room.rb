@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Room < ApplicationRecord
   validates :name, presence: true
   has_many :user_rooms
@@ -9,6 +11,6 @@ class Room < ApplicationRecord
   private
 
   def update_room_details
-    broadcast_replace_to('room_details_channel', partial: 'shared/room', locals: {room: self}, target: "room_#{id}")
+    broadcast_replace_to('room_details_channel', partial: 'shared/room', locals: { room: self }, target: "room_#{id}")
   end
 end
